@@ -4,6 +4,41 @@
 '''
 
 '''
+    * 1720. Decode XORed Array
+    * 
+    * There is a hidden integer array arr that consists of n non-negative integers.
+    * It was encoded into another integer array encoded of length n - 1, 
+    * such that encoded[i] = arr[i] XOR arr[i + 1]. For example, if arr = [1,0,2,1], 
+    * then encoded = [1,2,3].
+    * You are given the encoded array. You are also given an integer first, 
+    * that is the first element of arr, i.e. arr[0].
+    * Return the original array arr. It can be proved that the answer exists and is unique.
+    * 
+    * Example 1:
+    * Input: encoded = [1,2,3], first = 1
+    * Output: [1,0,2,1]
+    * Explanation: If arr = [1,0,2,1], then first = 1 
+    * and encoded = [1 XOR 0, 0 XOR 2, 2 XOR 1] = [1,2,3]
+    *
+    * Engineer Explanation:
+    * XOR is an 'exclusive or' bitwise operator
+    * We are provided with the first value of the original array,
+    * so for the first value, we simply need to add that to the returned array.
+    * Then, stepping through the encoded array, perform the bitwise operation 
+    *  37: 0 0 1 0 0 1 0 1
+    * ^23: 0 0 0 1 0 1 1 1
+    * _____________________
+    *  50  0 0 1 1 0 0 1 0
+    * XOR checks if only one digit is 1
+'''
+class Solution:
+    def decode(self, encoded: List[int], first: int) -> List[int]:
+        arr = [first]
+        for i in range(len(encoded)):
+            arr.append(encoded[i] ^ arr[i])
+        return arr
+
+'''
     * 1342 Number of Steps to Reduce a Number to Zero
     * 
     * Given a non-negative integer num, return the number of steps to reduce it to zero. 
