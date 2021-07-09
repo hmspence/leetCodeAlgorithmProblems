@@ -3,6 +3,46 @@
  * My criteria is each solution is at least faster than 50% of all user submissions
  */
 
+/**
+ * 1678. Goal Parser Interpretation
+ * 
+ * You own a Goal Parser that can interpret a string command. 
+ * The command consists of an alphabet of "G", "()" and/or "(al)" in some order. 
+ * The Goal Parser will interpret "G" as the string "G", "()" as the string "o", 
+ * and "(al)" as the string "al". The interpreted strings are then concatenated in the original order.
+ * Given the string command, return the Goal Parser's interpretation of command.
+ * 
+ * Example 1:
+ * Input: command = "G()(al)"
+ * Output: "Goal"
+ * Explanation: The Goal Parser interprets the command as follows:
+ * G -> G
+ * () -> o
+ * (al) -> al
+ * The final concatenated result is "Goal".
+ * 
+ * @param {string} command
+ * @return {string}
+ */
+const interpret = (command) => {
+  const dict = { G: 'G', '()': 'o', '(al)': 'al', '': ''};
+  const specialChars = new Set(['(', 'a', 'l']);
+  let translated = '';
+  for (let i = 0; i < command.length; i++) {
+    const char = command[i];
+    if (specialChars.has(char)) {
+      continue; 
+    } else if ( char == ')') {
+      const o = i - 1 > 0 ? `${command[i - 1]}${char}` : '';
+      const al = i - 3 > 0 ? `${command[i - 3]}${command[i - 2]}${command[i - 1]}${char}` : '';
+      translated = translated + (dict[o] || dict[al]);
+    } else {
+      translated = translated + dict[char];
+    }
+  }
+  return translated;
+};
+
  /**
   * 1720. Decode XORed Array
   * 
