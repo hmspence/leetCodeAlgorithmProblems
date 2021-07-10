@@ -24,7 +24,18 @@
 '''
 class Solution:
     def interpret(self, command: str) -> str:
-        
+        i = 0
+        translate = { '()': 'o', '(al)': 'al', '': '' }
+        translated = ''
+        while i < len(command):
+            if command[i] == ')':
+                twoChars = command[i-1, i+1] i - 1 > -1 else ''
+                threeChars = command[i-3, i+1] i - 3 > -1 else ''
+                translated += translate[twoChars] or translate[threeChars]
+            else:
+                translated += 'G'
+            i += 1
+        return translated
 
 '''
     * 1720. Decode XORed Array
