@@ -21,24 +21,28 @@
  * (al) -> al
  * The final concatenated result is "Goal".
  * 
+ * Engineer Notes:
+ * At the time of submission, this solution was 86% faster with less memory than 72%
+ * Most solutions hard-code in checking for each char, I think this one is more scalable. 
+ * 
  * @param {string} command
  * @return {string}
  */
 const interpret = (command) => {
-  const dict = { G: 'G', '()': 'o', '(al)': 'al', '': ''};
+  const dict = { G: 'G', '()': 'o', '(al)': 'al', '': '' };
   const specialChars = new Set(['(', 'a', 'l']);
   let translated = '';
-  for (let i = 0; i < command.length; i++) {
+  let i = 0;
+  while (i < command.length) {
     const char = command[i];
-    if (specialChars.has(char)) {
-      continue; 
-    } else if ( char == ')') {
-      const o = i - 1 > 0 ? `${command[i - 1]}${char}` : '';
-      const al = i - 3 > 0 ? `${command[i - 3]}${command[i - 2]}${command[i - 1]}${char}` : '';
+    if (char === ')') {
+      const o = i - 1 >= 0 ? command.slice(i - 1, i + 1) : '';
+      const al = i - 3 >= 0 ? command.slice(i - 3, i + 1) : '';
       translated = translated + (dict[o] || dict[al]);
-    } else {
+    } else if (char === 'G') {
       translated = translated + dict[char];
     }
+    i++;
   }
   return translated;
 };
