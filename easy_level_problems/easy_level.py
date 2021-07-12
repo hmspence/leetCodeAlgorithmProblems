@@ -21,21 +21,14 @@
     * (al) -> al
     * The final concatenated result is "Goal".
     * 
+    * Engineer Notes:
+    * I could not make the solution fast enough without Python's native 'replace' function
+    * A more scalable and readable solution would perform slower on Leetcode
+    * 
 '''
 class Solution:
     def interpret(self, command: str) -> str:
-        i = 0
-        translate = { '()': 'o', '(al)': 'al', '': '' }
-        translated = ''
-        while i < len(command):
-            if command[i] == ')':
-                twoChars = command[i-1, i+1] i - 1 > -1 else ''
-                threeChars = command[i-3, i+1] i - 3 > -1 else ''
-                translated += translate[twoChars] or translate[threeChars]
-            else:
-                translated += 'G'
-            i += 1
-        return translated
+        return command.replace('()', 'o').replace('(al)', 'al')
 
 '''
     * 1720. Decode XORed Array
