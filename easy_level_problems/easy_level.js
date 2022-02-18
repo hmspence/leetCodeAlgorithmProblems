@@ -458,3 +458,34 @@ var smallestEqual = function (nums) {
   }
   return smallestIndex;
 };
+
+/**
+  * 1200
+  * Given an array of distinct integers arr,
+  * find all pairs of elements with the minimum absolute difference of any two elements.
+  * Return a list of pairs in ascending order(with respect to pairs), each pair [a, b] follows
+  * a, b are from arr
+  * a < b
+  * b - a equals to the minimum absolute difference of any two elements in arr
+
+  * Example
+  * Input: arr = [4,2,1,3]
+  * Output: [[1,2],[2,3],[3,4]]
+  * Explanation: The minimum absolute difference is 1.
+  * List all pairs with difference equal to 1 in ascending order.
+ */
+var minimumAbsDifference = function (arr) {
+  const arrCopy = [...arr].sort((a, b) => a - b);
+  let minDiffPairs = [[arrCopy[0], arrCopy[1]]];
+  let minDiff = Math.abs(arrCopy[1] - arrCopy[0]);
+  for (let i = 1; i < arr.length - 1; i++) {
+    const absDiff = Math.abs(arrCopy[i + 1] - arrCopy[i]);
+    if (absDiff < minDiff) {
+      minDiff = absDiff;
+      minDiffPairs = [[arrCopy[i], arrCopy[i + 1]]];
+    } else if (absDiff === minDiff) {
+      minDiffPairs.push([arrCopy[i], arrCopy[i + 1]]);
+    }
+  };
+  return minDiffPairs;
+};
