@@ -524,3 +524,28 @@ var checkAlmostEquivalent = function (word1, word2) {
   });
   return areSimilar;
 };
+
+/**
+  * 1408
+  * Given an array of string words.
+  * Return all strings in words which is substring of another word in any order.
+  * String words[i] is substring of words[j],
+  * if can be obtained removing some characters to left and/or right side of words[j].
+
+  * Example
+  * Input: words = ["mass","as","hero","superhero"]
+  * Output: ["as","hero"]
+  * Explanation: "as" is substring of "mass" and "hero" is substring of "superhero".
+  * ["hero","as"] is also a valid answer.
+ */
+var stringMatching = function (words) {
+  const subStrings = new Set();
+  for (let i = 0; i < words.length; i++) {
+    for (let j = 0; j < words.length; j++) {
+      if (words[i] !== words[j] && words[i].indexOf(words[j]) !== -1) {
+        subStrings.add(words[j]);
+      }
+    }
+  }
+  return [...subStrings];
+};
