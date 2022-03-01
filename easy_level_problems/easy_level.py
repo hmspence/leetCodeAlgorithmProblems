@@ -545,4 +545,54 @@ class Solution:
             else:
                 fizzBuzzArr.append(str(i))
         return fizzBuzzArr
-        
+
+'''
+    * 2062
+    * A substring is a contiguous (non-empty) sequence of characters within a string.
+    * A vowel substring is a substring that only consists of vowels 
+    * ('a', 'e', 'i', 'o', and 'u') and has all five vowels present in it.
+    * Given a string word, return the number of vowel substrings in word.
+
+    * Example
+    * Input: word = "cuaieuouac"
+    * Output: 7
+    * Explanation: The vowel substrings of word are as follows (underlined):
+    * - "uaieuo"
+    * - "uaieuou"
+    * - "uaieuoua"
+    * - "aieuo"
+    * - "aieuou"
+    * - "aieuoua"
+    * - "ieuoua"
+'''
+class Solution:
+    def countVowelSubstrings(self, word: str) -> int:
+        vowelStrCount = 0
+        vowelSet = set(["a", "e", "i", "o", "u"])
+        n = len(word)
+        for i in range(n):
+            char = word[i]
+            if char in vowelSet:
+                foundVowelsSet = set(char)
+                foundVowels = {}
+                foundVowels[char] = 1
+                lastVowelIndex = i
+                for j in range(i + 1, n):
+                    if word[j] in vowelSet:
+                        lastVowelIndex = j
+                        rightChar = word[j]
+                        foundVowelsSet.add(rightChar)
+                        foundVowels[rightChar] = foundVowels[rightChar] + 1 if rightChar in foundVowels else 1
+                    else:
+                        break
+                # once all vowels are found
+                if len(foundVowelsSet) == 5:
+                    vowelStrCount += 1
+                    for k in range(lastVowelIndex, i, -1):
+                        rightChar = word[k]
+                        foundVowels[rightChar] -= 1
+                        if foundVowels[rightChar] > 0:
+                            vowelStrCount += 1
+                        else:
+                            break
+        return vowelStrCount
