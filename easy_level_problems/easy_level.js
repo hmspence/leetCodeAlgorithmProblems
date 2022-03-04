@@ -580,3 +580,52 @@ var fizzBuzz = function (n) {
   }
   return fizzBuzzArr;
 };
+
+/**
+  * 2062
+  * A substring is a contiguous (non-empty) sequence of characters within a string.
+  * A vowel substring is a substring that only consists of vowels
+  * ('a', 'e', 'i', 'o', and 'u') and has all five vowels present in it.
+  * Given a string word, return the number of vowel substrings in word.
+
+  * Example
+  * Input: word = "cuaieuouac"
+  * Output: 7
+  * Explanation: The vowel substrings of word are as follows (underlined):
+  * - "uaieuo"
+  * - "uaieuou"
+  * - "uaieuoua"
+  * - "aieuo"
+  * - "aieuou"
+  * - "aieuoua"
+  * - "ieuoua"
+ */
+var countVowelSubstrings = function (word) {
+  let vowelSubCount = 0;
+  const vowelSet = new Set(['a', 'e', 'i', 'o', 'u']);
+  for (let i = 0; i < word.length; i++) {
+    const vowelCount = {};
+    const char = word[i];
+    let rightPointer = i;
+    // Increment rightPointer until all consecutive vowels have been found
+    while (vowelSet.has(word[rightPointer])) {
+      vowelCount[word[rightPointer]] = vowelCount[word[rightPointer]] ? vowelCount[word[rightPointer]] + 1 : 1;
+      if (rightPointer + 1 === word.length || !vowelSet.has(word[rightPointer + 1])) {
+        break;
+      }
+      rightPointer = rightPointer + 1;
+    }
+    // Once all vowels have been found, decrement right pointer
+    let allVowels = Object.keys(vowelCount).length === 5;
+    while (allVowels && rightPointer > i) {
+      vowelSubCount = vowelSubCount + 1;
+      vowelCount[word[rightPointer]] = vowelCount[word[rightPointer]] - 1;
+      if (vowelCount[word[rightPointer]] === 0) {
+        delete vowelCount[word[rightPointer]];
+        allVowels = false;
+      }
+      rightPointer = rightPointer - 1;
+    }
+  }
+  return vowelSubCount;
+};
